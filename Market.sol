@@ -57,4 +57,22 @@ contract DataTypes {
             emit ShopStatus("Shop_Is_Closed");
         }
     }
+
+    //block
+    function logBlockDetails() public view {
+        console.log(block.basefee);
+        console.log(block.gaslimit);
+        console.log(block.chainid);
+    }
+
+    //msg
+    function logMsgDetails() public payable {
+        console.log(msg.sender);
+        console.log(msg.value);
+    }
+
+    //tx
+    function logTxDetails() public payable  {
+        console.log(tx.origin);
+    }
 }
