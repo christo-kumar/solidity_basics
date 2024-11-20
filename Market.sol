@@ -58,6 +58,15 @@ contract DataTypes {
         }
     }
 
+    modifier onlyOwner() {
+        require(msg.sender == firstShop.ownerAddress, 'Only Owner can sell the shop');
+        _;
+    }
+
+    function sellFirstShop() public view onlyOwner {
+        console.log('Logic to sell the shop');
+    }
+
     //block
     function logBlockDetails() public view {
         console.log(block.basefee);
