@@ -33,7 +33,9 @@ CMD ["bash", "-c", "cp -r /usr/src/app/backend /usr/src/app/frontend /export"]
 # docker run --rm -v "%cd%:/export" solidity-project-template
 # execution on powershell
 # docker run --rm -v "%cd%:/export" solidity-project-template
+
 # sudo npx hardhat compile
 # sudo npx hardhat node
 # sudo npx hardhat run scripts/deploy.js --network localhost
+# copy abi and address to contract.js in frontend
 # npm start
