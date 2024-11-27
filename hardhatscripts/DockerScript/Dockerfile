@@ -26,14 +26,26 @@ RUN mkdir -p /export && cp -r backend frontend /export
 # Default command for running the container
 CMD ["bash", "-c", "cp -r /usr/src/app/backend /usr/src/app/frontend /export"]
 
-# docker build -t solidity-project-template .
-# execution on mac
-# docker run --rm -v "$(pwd):/export" solidity-project-template
-# execution on windows
-# docker run --rm -v "%cd%:/export" solidity-project-template
-# execution on powershell
-# docker run --rm -v "%cd%:/export" solidity-project-template
 # sudo npx hardhat compile
 # sudo npx hardhat node
 # sudo npx hardhat run scripts/deploy.js --network localhost
 # npm start
+
+# Build docker images
+# docker build -t solidity-project-template .
+
+# Export docker image
+# docker load -i solidity-project-template.tar
+# Validate docker image
+# docker images
+# install the docker image tar
+# docker save -o solidity-project-template.tar solidity-project-template
+
+# execution on mac
+# docker run --rm -v "$(pwd):/export" solidity-project-template
+
+# execution on windows
+# docker run --rm -v "%cd%:/export" solidity-project-template
+
+# execution on powershell
+# docker run --rm -v "%cd%:/export" solidity-project-template
