@@ -12,10 +12,23 @@ npm install --save-dev hardhat
 #5. do npm install
 npm install
 
-#6. compile smartcontracts
+#6. compile smartcontracts, skip sudo on windows powershell
 sudo npx hardhat compile
+
+#7. create the blockchain node, skip sudo on windows powershell
 sudo npx hardhat node
-#create new terminal window
+
+#8. split the new terminal window, skip sudo on windows powershell
 sudo npx hardhat run scripts/deploy.js --network localhost
 
-# Now configure the metamask wallet and import accounts
+#9. now configure the metamask wallet and import accounts
+
+#10. cd into frontend
+cd ..
+cd frontend
+
+#11. install react dependencies
+npm install
+
+#12. run the react side
+npm start 
