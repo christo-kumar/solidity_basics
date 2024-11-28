@@ -23,7 +23,7 @@ sudo npx hardhat run scripts/deploy.js --network localhost
 
 #9. now configure the metamask wallet and import accounts
 
-#10. cd into frontend
+#10. cd into frontend and copy the abi and contract address in contract.js from HelloSolidity.json
 cd ..
 cd frontend
 
