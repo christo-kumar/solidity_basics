@@ -37,57 +37,78 @@ const abi = [
 
 const provider = new ethers.BrowserProvider(window.ethereum);
 
-export const connect = async () => {
-  await provider.send("eth_requestAccounts", []);
-  return getContract();
-};
-
-export const getContract = async () => {
-  const signer = provider.getSigner();
-  const contract = new ethers.Contract(address, abi, signer);
-  return { signer: signer, contract: contract };
-};
-
-export async function getMessage() {
+// Function to get the signer asynchronously
+export const getSigner = async () => {
   try {
-    // Use the provider directly for reading data (view function)
+    const signer = await provider.getSigner();
+    console.log("*** Signer fetched successfully: ***", signer);
+    return signer;
+  } catch (error) {
+    console.error("Error fetching signer:", error);
+    throw new Error(
+      "Could not fetch signer. Please check MetaMask connection."
+    );
+  }
+};
+
+// Function to get the contract instance
+export const getContract = async () => {
+  try {
+    const signer = await getSigner();
+    const contract = new ethers.Contract(address, abi, signer);
+    return contract;
+  } catch (error) {
+    console.error("Error creating contract instance:", error);
+    throw new Error("Could not create contract instance.");
+  }
+};
+
+// Function to fetch the current message from the contract
+export const getMessage = async () => {
+  try {
+    // Use the provider directly for calling view functions
     const contract = new ethers.Contract(address, abi, provider);
     const message = await contract.getMessage();
     console.log("Message from contract:", message);
     return message;
   } catch (error) {
-    console.error("Error fetching message:", error);
+    console.error("Error fetching message:", error.message || error);
+    throw new Error("Failed to fetch message from the contract.");
   }
-}
+};
 
-export async function setMessage(newMessage) {
+// Function to update the message in the contract
+export const setMessage = async (newMessage) => {
   try {
-    const { contract } = await getContract(); // Get the contract with signer
-
-    // Check if newMessage is not empty
     if (!newMessage || typeof newMessage !== "string") {
       throw new Error("Invalid message: Please provide a valid string.");
     }
 
-    // Send the transaction to set the new message
+    const contract = await getContract();
     const tx = await contract.setMessage(newMessage);
+    console.log("Transaction sent:", tx.hash);
 
     // Wait for the transaction to be mined
     const receipt = await tx.wait();
-
-    // Log transaction details
-    console.log("Transaction successful:", receipt.transactionHash);
-    console.log("Message updated!");
+    console.log("Transaction mined:", receipt.transactionHash);
+    console.log("Message updated successfully!");
   } catch (error) {
     console.error("Error setting message:", error.message || error);
-
-    // Additional debugging information
     if (error.code) {
       console.error("Error code:", error.code);
-    }
-
-    if (error.data) {
       console.error("Error data:", error.data);
     }
+    throw new Error("Failed to update the message in the contract.");
   }
-}
+};
+
+// Function to connect to MetaMask
+export const connect = async () => {
+  try {
+    await provider.send("eth_requestAccounts", []);
+    console.log("MetaMask connected successfully.");
+  } catch (error) {
+    console.error("Error connecting to MetaMask:", error);
+    throw new Error("Failed to connect to MetaMask. Please try again.");
+  }
+};
